@@ -159,10 +159,10 @@ static uint8 table58H[8] = {3,6,11,16,23,32,41,64};  // 3-bit table for the 58 b
 uint8 weight[3] = {1,1,1};			// Color weight
 
 // Enums
-static enum{PATTERN_H = 0, 
+enum{PATTERN_H = 0, 
 			PATTERN_T = 1};
 
-static enum{MODE_ETC1, MODE_THUMB_T, MODE_THUMB_H, MODE_PLANAR};
+enum{MODE_ETC1, MODE_THUMB_T, MODE_THUMB_H, MODE_PLANAR};
 // The ETC2 package of codecs includes the following codecs:
 //
 // codec                                             enum
@@ -202,11 +202,11 @@ static enum{MODE_ETC1, MODE_THUMB_T, MODE_THUMB_H, MODE_PLANAR};
 // (GL_COMPRESSED_R11_EAC) and signed (GL_COMPRESSED_SIGNED_R11_EAC) version of 
 // the codec.
 // 
-static enum{ETC1_RGB_NO_MIPMAPS,ETC2PACKAGE_RGB_NO_MIPMAPS,ETC2PACKAGE_RGBA_NO_MIPMAPS_OLD,ETC2PACKAGE_RGBA_NO_MIPMAPS,ETC2PACKAGE_RGBA1_NO_MIPMAPS,ETC2PACKAGE_R_NO_MIPMAPS,ETC2PACKAGE_RG_NO_MIPMAPS,ETC2PACKAGE_R_SIGNED_NO_MIPMAPS,ETC2PACKAGE_RG_SIGNED_NO_MIPMAPS,ETC2PACKAGE_sRGB_NO_MIPMAPS,ETC2PACKAGE_sRGBA_NO_MIPMAPS,ETC2PACKAGE_sRGBA1_NO_MIPMAPS};
-static enum {MODE_COMPRESS, MODE_UNCOMPRESS, MODE_PSNR};
-static enum {SPEED_SLOW, SPEED_FAST, SPEED_MEDIUM};
-static enum {METRIC_PERCEPTUAL, METRIC_NONPERCEPTUAL};
-static enum {CODEC_ETC, CODEC_ETC2};
+enum{ETC1_RGB_NO_MIPMAPS,ETC2PACKAGE_RGB_NO_MIPMAPS,ETC2PACKAGE_RGBA_NO_MIPMAPS_OLD,ETC2PACKAGE_RGBA_NO_MIPMAPS,ETC2PACKAGE_RGBA1_NO_MIPMAPS,ETC2PACKAGE_R_NO_MIPMAPS,ETC2PACKAGE_RG_NO_MIPMAPS,ETC2PACKAGE_R_SIGNED_NO_MIPMAPS,ETC2PACKAGE_RG_SIGNED_NO_MIPMAPS,ETC2PACKAGE_sRGB_NO_MIPMAPS,ETC2PACKAGE_sRGBA_NO_MIPMAPS,ETC2PACKAGE_sRGBA1_NO_MIPMAPS};
+enum {MODE_COMPRESS, MODE_UNCOMPRESS, MODE_PSNR};
+enum {SPEED_SLOW, SPEED_FAST, SPEED_MEDIUM};
+enum {METRIC_PERCEPTUAL, METRIC_NONPERCEPTUAL};
+enum {CODEC_ETC, CODEC_ETC2};
 
 int mode = MODE_COMPRESS;
 int speed = SPEED_FAST;
@@ -244,7 +244,7 @@ KTX_header;
 #define KTX_ENDIAN_REF      (0x04030201)
 #define KTX_ENDIAN_REF_REV  (0x01020304)
 
-static enum {GL_R=0x1903,GL_RG=0x8227,GL_RGB=0x1907,GL_RGBA=0x1908};
+enum {GL_R=0x1903,GL_RG=0x8227,GL_RGB=0x1907,GL_RGBA=0x1908};
 #define GL_SRGB                                          0x8C40
 #define GL_SRGB8                                         0x8C41
 #define GL_SRGB8_ALPHA8                                  0x8C43
@@ -298,7 +298,7 @@ int indexConversion(int pixelIndices)
 
 // Tests if a file exists.
 // NO WARRANTY --- SEE STATEMENT IN TOP OF FILE (C) Ericsson AB 2005-2013. All Rights Reserved.
-bool fileExist(char *filename)
+bool fileExist(const char *filename)
 {
 	FILE *f=NULL;
 	if((f=fopen(filename,"rb"))!=NULL)
@@ -470,7 +470,7 @@ bool readSrcFile(char *filename,uint8 *&img,int &width,int &height, int &expande
 	{
 		// Already a .ppm file. Just copy. 
 		sprintf(str,"copy %s tmp.ppm \n", filename);
-		printf("Copying source file to tmp.ppm\n", filename);
+		printf("Copying source file %s to tmp.ppm\n", filename);
 	}
 	else
 	{
@@ -569,7 +569,7 @@ bool readSrcFileNoExpand(char *filename,uint8 *&img,int &width,int &height)
 	{
 		// Already a .ppm file. Just copy. 
 		sprintf(str,"copy %s tmp.ppm \n", filename);
-		printf("Copying source file to tmp.ppm\n", filename);
+		printf("Copying source file %s to tmp.ppm\n", filename);
 	}
 	else
 	{
@@ -614,7 +614,7 @@ void readArguments(int argc,char *argv[],char* src,char *dst)
 		{
 			if(i==argc-1) 
 			{
-				printf("flag missing argument: %s!\n");
+				printf("flag missing argument: %s!\n", argv[i]);
 				exit(1);
 			}
 			//handle speed flag
@@ -9208,7 +9208,7 @@ void uncompressFile(char *srcfile, uint8* &img, uint8 *&alphaimg, int& active_wi
 				if(!(texture_type == ETC1_RGB_NO_MIPMAPS))
 				{
 					printf("\n\n The file %s (of version %c.%c) does not contain a texture of known format.\n", srcfile, version[0],version[1]);
-					printf("Known formats: ETC1_RGB_NO_MIPMAPS.\n", srcfile);
+					printf("Known formats: ETC1_RGB_NO_MIPMAPS.\n");
 					exit(1);
 				}
 			}
@@ -9252,7 +9252,7 @@ void uncompressFile(char *srcfile, uint8* &img, uint8 *&alphaimg, int& active_wi
 				if(!(texture_type==ETC2PACKAGE_RGB_NO_MIPMAPS||texture_type==ETC2PACKAGE_sRGB_NO_MIPMAPS||texture_type==ETC2PACKAGE_RGBA_NO_MIPMAPS||texture_type==ETC2PACKAGE_sRGBA_NO_MIPMAPS||texture_type==ETC2PACKAGE_R_NO_MIPMAPS||texture_type==ETC2PACKAGE_RG_NO_MIPMAPS||texture_type==ETC2PACKAGE_RGBA1_NO_MIPMAPS||texture_type==ETC2PACKAGE_sRGBA1_NO_MIPMAPS))
 				{
 					printf("\n\n The file %s does not contain a texture of known format.\n", srcfile);
-					printf("Known formats: ETC2PACKAGE_RGB_NO_MIPMAPS.\n", srcfile);
+					printf("Known formats: ETC2PACKAGE_RGB_NO_MIPMAPS.\n");
 					exit(1);
 				}
 			}
@@ -9508,7 +9508,7 @@ void writeOutputFile(char *dstfile, uint8* img, uint8* alphaimg, int width, int 
 			fWriteTGAfromRGBandA(dstfile, rw, rh, pixelsRGB, pixelsA, true);
             free(pixelsRGB);
             free(pixelsA);
-            sprintf(str,""); // Nothing to execute.
+            sprintf(str,":"); // Nothing to execute.
 		}
 		else if(format==ETC2PACKAGE_R_NO_MIPMAPS) 
 		{
